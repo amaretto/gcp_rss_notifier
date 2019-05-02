@@ -1,12 +1,12 @@
-package main
+package p
 
 import (
 	"context"
 	"encoding/xml"
-	"flag"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strconv"
 	"time"
@@ -24,13 +24,19 @@ type GcpRss struct {
 	Content    []string `xml:"entry>content"`
 }
 
-func main() {
+// PubSubMessage accept message from Cloud Pub/Sub
+type PubSubMessage struct {
+	Data []byte `json:"data"`
+}
+
+// UpdateDB insert new info from GCP RSS
+func UpdateDB(ctx context.Context, m PubSubMessage) error {
+
 	var prjName string
-	flag.StringVar(&prjName, "prjName", "", "GCP project name")
-	flag.Parse()
+	prjName = os.Getenv("PROJECT_NAME")
 
 	//Prepare client
-	ctx := context.Background()
+	//ctx := context.Background()
 
 	client, err := firestore.NewClient(ctx, prjName)
 	if err != nil {
@@ -41,7 +47,7 @@ func main() {
 	gr, err := getGcpRss(FeedURL)
 	if err != nil {
 		log.Fatalf("Log: %v", err)
-		return
+		return err
 	}
 
 	layout := "2006-01-02T15:04:05Z"
@@ -66,6 +72,8 @@ func main() {
 
 		registerRecord(ctx, t.Unix(), result[1], gr.Updated[count], result[3], result[4], gr.Content[count], client)
 	}
+
+	return nil
 }
 
 // Get GCP RSS
@@ -97,7 +105,7 @@ func isExistRecord(ctx context.Context, id int64, c *firestore.Client) bool {
 	return true
 }
 
-//
+// register GCP RSS records to FIrestore
 func registerRecord(ctx context.Context, id int64, status, updated, incidentNo, title, detail string, c *firestore.Client) {
 	_, err := c.Collection("gcp-rss").Doc(strconv.FormatInt(id, 10)).Set(ctx, map[string]interface{}{
 		"STATUS":      status,
