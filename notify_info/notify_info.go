@@ -23,17 +23,22 @@ type GcpRssInfo struct {
 	Detail     string
 }
 
-func main() {
-	err := NotifyInfo()
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
+// PubSubMessage accept message from Cloud Pub/Sub
+type PubSubMessage struct {
+	Data []byte `json:data`
 }
+
+//func main() {
+//	err := NotifyInfo()
+//	if err != nil {
+//		log.Fatalf("%v", err)
+//	}
+//}
 
 // NotifyInfo notify new GCP RSS(updated after last notification) for users
 func NotifyInfo(ctx context.Context, m PubSubMessage) error {
 
-	ctx := context.Background()
+	//ctx := context.Background()
 	r, err := getNewInfo(ctx)
 	if err != nil {
 		log.Fatalf("%v", err)
