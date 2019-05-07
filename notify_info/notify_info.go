@@ -10,8 +10,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-// ToDo: Need to refactor
-// - unite format of log  and error
+// ToDo: Need to refactor // - unite format of log  and error
 // - rename variable
 
 // GcpRssInfo have information of RSS from GCP
@@ -27,13 +26,6 @@ type GcpRssInfo struct {
 type PubSubMessage struct {
 	Data []byte `json:data`
 }
-
-//func main() {
-//	err := NotifyInfo()
-//	if err != nil {
-//		log.Fatalf("%v", err)
-//	}
-//}
 
 // NotifyInfo notify new GCP RSS(updated after last notification) for users
 func NotifyInfo(ctx context.Context, m PubSubMessage) error {
