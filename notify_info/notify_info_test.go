@@ -7,11 +7,11 @@ import (
 
 // This test doesn't run yet
 func TestNotifyInfo(t *testing.T) {
-	m := PubSubMessage
+	m := PubSubMessage{}
 	ctx := context.Background()
 
 	err := NotifyInfo(ctx, m)
 	if err != nil {
-		t.Fatal("failed test : %v", err)
+		t.Fatalf("failed test : %v", err)
 	}
 }

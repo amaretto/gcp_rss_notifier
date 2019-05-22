@@ -20,6 +20,7 @@ type GcpRssInfo struct {
 	IncidentNo string
 	Title      string
 	Detail     string
+	URL        string
 }
 
 // PubSubMessage accept message from Cloud Pub/Sub
@@ -48,6 +49,7 @@ func NotifyInfo(ctx context.Context, m PubSubMessage) error {
 		messageString += "[Title]\n" + gri.Title + "(" + gri.IncidentNo + ")\n\n"
 		messageString += "[Status]\n" + gri.Status + "\n\n"
 		messageString += "[Update]\n" + gri.Updated + "\n\n"
+		messageString += "[LINK]\n" + gri.URL + "\n\n"
 		messageString += "[Detail]\n" + gri.Detail + "\n\n"
 		messageString += "--------------------------\n"
 
@@ -97,6 +99,7 @@ func getNewInfo(ctx context.Context) (p []*GcpRssInfo, err error) {
 		ni.IncidentNo = docsnap.Data()["INCIDENT_NO"].(string)
 		ni.Title = docsnap.Data()["TITLE"].(string)
 		ni.Detail = docsnap.Data()["DETAIL"].(string)
+		ni.URL = docsnap.Data()["URL"].(string)
 		p = append(p, ni)
 	}
 

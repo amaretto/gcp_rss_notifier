@@ -12,6 +12,6 @@ func TestUpdateDB(t *testing.T) {
 
 	err := UpdateDB(ctx, m)
 	if err != nil {
-		t.Fatal("faild test : %v", err)
+		t.Fatalf("faild test : %v", err)
 	}
 }
