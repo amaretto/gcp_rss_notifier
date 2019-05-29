@@ -6,6 +6,9 @@ gcp_rss_notifier get GCP RSS Feeds and notify user on slack
 
 - updatedb
 
+Prepare database named "gcp-rss"
+
+
 ```shell
 gcloud functions deploy UpdateDB --runtime go111 --trigger-topic updatedb --set-env-vars PROJECT_NAME=YOUR_PROJECT_NAME
 ```
