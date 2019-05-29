@@ -127,17 +127,14 @@ func updateLastUpdTime(ctx context.Context, lastUpd string) (err error) {
 // SendMessage send message to Slack
 func SendMessage(message string) {
 	// ToDo: return err
-	// ToDo: this method use old library. it is needed adapting latest version.
 	api := slack.New(os.Getenv("SLACK_TOKEN"))
 	username := os.Getenv("SLACK_USERNAME")
+	ch := os.Getenv("SLACK_CH")
 
 	message = "<" + username + "> \n" + message
-	params := slack.PostMessageParameters{}
 	attachment := slack.Attachment{
 		Text: message,
 	}
-	params.Attachments = []slack.Attachment{attachment}
-	params.AsUser = true
 
-	api.PostMessage("#gcp_rss", "", params)
+	api.PostMessage(ch, slack.MsgOptionAttachments(attachment))
 }
