@@ -6,7 +6,7 @@ gcp_rss_notifier get GCP RSS Feeds and notify user on slack
 
 - updatedb
 
-Prepare database named "gcp-rss"
+Prepare firestore database named "gcp-rss"
 
 
 ```shell
@@ -15,4 +15,5 @@ gcloud functions deploy UpdateDB --runtime go111 --trigger-topic updatedb --set-
 
 - notifyinfo
 ```shell
-gcloud functions deploy NotifyInfo --runtime go111 --trigger-topic notifyinfo --set-env-vars PROJECT_NAME=YOUR_PROJECT_NAME,SLACK_TOKEN=YOUR_SLACK_TOKEN,SLACK_USERNAME=YOUR_SLACK_USERNAME
+gcloud functions deploy NotifyInfo --runtime go111 --trigger-topic notifyinfo --set-env-vars PROJECT_NAME=YOUR_PROJECT_NAME,SLACK_TOKEN=YOUR_SLACK_TOKEN,SLACK_USERNAME=YOUR_SLACK_USERNAME, SLACK_CH=YOUR_SLACK_CHANNEL
+
